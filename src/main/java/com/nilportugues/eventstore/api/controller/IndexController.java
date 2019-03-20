@@ -3,7 +3,6 @@ package com.nilportugues.eventstore.api.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.io.*;
@@ -18,8 +17,8 @@ import java.util.concurrent.TimeUnit;
 @Controller
 public class IndexController {
 
-	@RequestMapping("/")
-	public StreamingResponseBody welcome() throws Exception {
+    @RequestMapping("/")
+    public StreamingResponseBody welcome() throws Exception {
         return out -> {
             URL url = new URL("http://localhost:8090/infinite-json");
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -29,7 +28,7 @@ public class IndexController {
 
                 reader.lines().forEach(line -> {
                     try {
-                        out.write((line+"\n").getBytes());
+                        out.write((line + "\n").getBytes());
                         out.flush();
                     } catch (IOException ignored) {
                         ignored.printStackTrace();
@@ -39,27 +38,26 @@ public class IndexController {
 
             } catch (Exception e) {
                 e.printStackTrace();
-            }
-            finally {
+            } finally {
                 urlConnection.disconnect();
             }
 
         };
-	}
+    }
 
 
-	@RequestMapping(method = RequestMethod.GET, value = "/infinite-json", produces = "application/json")
-	public StreamingResponseBody handleRequest () {
+    @RequestMapping(method = RequestMethod.GET, value = "/infinite-json", produces = "application/json")
+    public StreamingResponseBody handleRequest() {
 
-	    TimeZone tz = TimeZone.getTimeZone("UTC");
+        TimeZone tz = TimeZone.getTimeZone("UTC");
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
         df.setTimeZone(tz);
 
-		return out -> {
+        return out -> {
             for (int i = 0; i < 100; i++) {
                 String nowAsISO = String.valueOf(new Date().toInstant().getEpochSecond());
 
-                out.write(("{\"id\": "+i+", \"hello\": \""+nowAsISO+"\"}\n").getBytes());
+                out.write(("{\"id\": " + i + ", \"hello\": \"" + nowAsISO + "\"}\n").getBytes());
                 out.flush();
 
                 try {
@@ -69,6 +67,6 @@ public class IndexController {
                 }
             }
         };
-	}
+    }
 
 }

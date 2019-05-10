@@ -1,6 +1,8 @@
-Spring Boot Streaming Response Body
+Spring Boot Event-Stream Response Body
 ===========================================
 
-- Stream JSON Producer is in `http://localhost:8090//infinite-json`
+This repository shows off how to implement using Spring Boot an endpoint responding `text/event-stream`.
 
-- Stream JSON Reader can be invoked in `http://localhost:8090/`
+- Endpoint producing `text/event-stream` output: `http://localhost:8090//infinite-json`
+
+- An example of how to read `text/event-stream` from the backend. `http://localhost:8090/`

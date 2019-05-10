@@ -46,7 +46,7 @@ public class IndexController {
     }
 
 
-    @RequestMapping(method = RequestMethod.GET, value = "/infinite-json", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/infinite-json", produces = "text/event-stream")
     public StreamingResponseBody handleRequest() {
 
         TimeZone tz = TimeZone.getTimeZone("UTC");
@@ -57,7 +57,8 @@ public class IndexController {
             for (int i = 0; i < 100; i++) {
                 String nowAsISO = String.valueOf(new Date().toInstant().getEpochSecond());
 
-                out.write(("{\"id\": " + i + ", \"hello\": \"" + nowAsISO + "\"}\n").getBytes());
+                out.write(("{\"id\": " + i + ", \"hello\": \"" + nowAsISO + "\"}").getBytes());
+                out.write(("\n").getBytes());
                 out.flush();
 
                 try {
